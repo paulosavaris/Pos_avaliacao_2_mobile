@@ -1,7 +1,11 @@
-part of 'tasks_bloc.dart';
+// part of 'tasks_bloc.dart';
+
+import 'package:meta/meta.dart';
+
+import '../../data/local/model/task_model.dart' show TaskModel;
 
 @immutable
-sealed class TasksEvent {}
+class TasksEvent {}
 
 class AddNewTaskEvent extends TasksEvent {
   final TaskModel taskModel;

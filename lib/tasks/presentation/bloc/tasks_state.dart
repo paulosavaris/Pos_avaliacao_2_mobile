@@ -1,7 +1,12 @@
-part of 'tasks_bloc.dart';
+// part of 'tasks_bloc.dart';
+
+import 'package:meta/meta.dart';
+
+import '../../data/local/model/task_model.dart';
+
 
 @immutable
-sealed class TasksState {}
+class TasksState {}
 
 final class FetchTasksSuccess extends TasksState {
   final List<TaskModel> tasks;

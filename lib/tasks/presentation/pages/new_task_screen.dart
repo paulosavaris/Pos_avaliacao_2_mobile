@@ -11,6 +11,8 @@ import '../../../components/custom_app_bar.dart';
 import '../../../utils/color_palette.dart';
 import '../bloc/tasks_bloc.dart';
 import '../../../components/build_text_field.dart';
+import '../bloc/tasks_event.dart';
+import '../bloc/tasks_state.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});

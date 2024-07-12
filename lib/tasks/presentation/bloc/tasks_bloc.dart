@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imake/tasks/presentation/bloc/tasks_event.dart';
+import 'package:imake/tasks/presentation/bloc/tasks_event.dart';
 
 import '../../data/local/model/task_model.dart';
 import '../../data/repository/task_repository.dart';
+import 'tasks_event.dart';
+import 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   final TaskRepository taskRepository;
@@ -16,27 +20,29 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<SearchTaskEvent>(_searchTasks);
   }
 
-  _addNewTask(? event, Emitter<TasksState> emit) async {
-    emit(TasksLoading());
-    try {
-      if (event.taskModel.title.trim().isEmpty) {
-        return emit(AddTaskFailure(error: 'Título não pode ser vazio'));
+  void _addNewTask(TasksEvent event, Emitter<TasksState> emit) async {
+    if (event is AddNewTaskEvent) {
+      emit(TasksLoading());
+      try {
+        if (event.taskModel.title.trim().isEmpty) {
+          return emit(AddTaskFailure(error: 'Título não pode ser vazio'));
+        }
+        if (event.taskModel.description.trim().isEmpty) {
+          return emit(AddTaskFailure(error: 'Descrição não pode ser vazia'));
+        }
+        if (event.taskModel.startDateTime == null) {
+          return emit(AddTaskFailure(error: 'Faltou a data de inicio'));
+        }
+        if (event.taskModel.stopDateTime == null) {
+          return emit(AddTaskFailure(error: 'Faltou a data de fim'));
+        }
+        await taskRepository.createNewTask(event.taskModel);
+        emit(AddTasksSuccess());
+        final tasks = await taskRepository.getTasks();
+        return emit(FetchTasksSuccess(tasks: tasks));
+      } catch (exception) {
+        emit(AddTaskFailure(error: exception.toString()));
       }
-      if (event.taskModel.description.trim().isEmpty) {
-        return emit(AddTaskFailure(error: 'Descrição não pode ser vazia'));
-      }
-      if (event.taskModel.startDateTime == null) {
-        return emit(AddTaskFailure(error: 'Faltou a data de inicio'));
-      }
-      if (event.taskModel.stopDateTime == null) {
-        return emit(AddTaskFailure(error: 'Faltou a data de fim'));
-      }
-      await taskRepository.createNewTask(event.taskModel);
-      emit(AddTasksSuccess());
-      final tasks = await taskRepository.getTasks();
-      return emit(FetchTasksSuccess(tasks: tasks));
-    } catch (exception) {
-      emit(AddTaskFailure(error: exception.toString()));
     }
   }
 
@@ -50,14 +56,13 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     }
   }
 
-  _updateTask(UpdateTaskEvent event, Emitter<TasksState> emit) async {
+  void _updateTask(UpdateTaskEvent event, Emitter<TasksState> emit) async {
     try {
       if (event.taskModel.title.trim().isEmpty) {
         return emit(UpdateTaskFailure(error: 'Título não pode ser vazio'));
       }
       if (event.taskModel.description.trim().isEmpty) {
-        return emit(
-            UpdateTaskFailure(error: 'Descrição não pode ser vazia'));
+        return emit(UpdateTaskFailure(error: 'Descrição não pode ser vazia'));
       }
       if (event.taskModel.startDateTime == null) {
         return emit(UpdateTaskFailure(error: 'Faltou a data de inicio'));
@@ -74,7 +79,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     }
   }
 
-  _deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) async {
+  void _deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) async {
     emit(TasksLoading());
     try {
       final tasks = await taskRepository.deleteTask(event.taskModel);
@@ -84,12 +89,12 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     }
   }
 
-  _sortTasks(SortTaskEvent event, Emitter<TasksState> emit) async {
+  void _sortTasks(SortTaskEvent event, Emitter<TasksState> emit) async {
     final tasks = await taskRepository.sortTasks(event.sortOption);
     return emit(FetchTasksSuccess(tasks: tasks));
   }
 
-  _searchTasks(SearchTaskEvent event, Emitter<TasksState> emit) async {
+  void _searchTasks(SearchTaskEvent event, Emitter<TasksState> emit) async {
     final tasks = await taskRepository.searchTasks(event.keywords);
     return emit(FetchTasksSuccess(tasks: tasks, isSearching: true));
   }

@@ -11,6 +11,8 @@ import '../../../utils/color_palette.dart';
 import '../../../utils/util.dart';
 import '../bloc/tasks_bloc.dart';
 import '../../../components/build_text_field.dart';
+import '../bloc/tasks_event.dart';
+import '../bloc/tasks_state.dart';
 
 class UpdateTaskScreen extends StatefulWidget {
   final TaskModel taskModel;
