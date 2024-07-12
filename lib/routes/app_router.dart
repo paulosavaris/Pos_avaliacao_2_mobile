@@ -12,6 +12,14 @@ Route onGenerateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case Pages.initial:
       return MaterialPageRoute(
+        builder: (context) => const SplashScreen(),
+      );
+    // case Pages.login:
+    //   return MaterialPageRoute(
+    //     builder: (context) => const LoginPage(),
+    //   );
+    case Pages.home:
+      return MaterialPageRoute(
         builder: (context) => const TasksScreen(),
       );
     case Pages.createNewTask:
@@ -23,6 +31,10 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (context) => UpdateTaskScreen(taskModel: args),
       );
+    // case Pages.developers:
+    //   return MaterialPageRoute(
+    //     builder: (context) => const Developers(),
+    //   );
     default:
       return MaterialPageRoute(
         builder: (context) => const PageNotFound(),
