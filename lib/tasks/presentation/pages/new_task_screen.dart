@@ -24,6 +24,7 @@ class NewTaskScreen extends StatefulWidget {
 class _NewTaskScreenState extends State<NewTaskScreen> {
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController detail = TextEditingController(); // Novo atributo
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
@@ -157,6 +158,24 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                               fillColor: kWhiteColor,
                               onChange: (value) {}),
                           const SizedBox(height: 20),
+                          buildText(
+                              'Detalhe',
+                              kBlackColor,
+                              textMedium,
+                              FontWeight.bold,
+                              TextAlign.start,
+                              TextOverflow.clip),
+                          const SizedBox(
+                            height: 10,
+                          ),                          
+                          BuildTextField(
+                              hint: "Detalhe",
+                              controller:
+                                  detail, // Adicionado o campo de detalhe
+                              inputType: TextInputType.multiline,
+                              fillColor: kWhiteColor,
+                              onChange: (value) {}),
+                          const SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
@@ -218,6 +237,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                                           id: taskId,
                                           title: title.text,
                                           description: description.text,
+                                          detail: detail
+                                              .text, // Atribuindo o valor do detalhe
                                           startDateTime: _rangeStart,
                                           stopDateTime: _rangeEnd);
                                       context.read<TasksBloc>().add(
