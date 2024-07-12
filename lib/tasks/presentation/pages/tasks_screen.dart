@@ -227,11 +227,14 @@ class _TasksScreenState extends State<TasksScreen> {
                     return Container();
                   }))),
           floatingActionButton: FloatingActionButton(
-              child: const Icon(
-                Icons.add_circle,
-                color: kPrimaryColor,
-              ),
-              onPressed: null),
+            child: const Icon(
+              Icons.add_circle,
+              color: kPrimaryColor,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, Pages.createNewTask);
+            },
+          ),
         )));
   }
 }

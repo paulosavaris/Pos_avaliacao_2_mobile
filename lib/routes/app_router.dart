@@ -7,6 +7,8 @@ import 'package:imake/tasks/presentation/pages/tasks_screen.dart';
 import 'package:imake/tasks/presentation/pages/update_task_screen.dart';
 
 import '../page_not_found.dart';
+import '../tasks/presentation/pages/developers.dart';
+import '../tasks/presentation/pages/login_page.dart';
 
 Route onGenerateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -14,10 +16,10 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (context) => const SplashScreen(),
       );
-    // case Pages.login:
-    //   return MaterialPageRoute(
-    //     builder: (context) => const LoginPage(),
-    //   );
+    case Pages.login:
+      return MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      );
     case Pages.home:
       return MaterialPageRoute(
         builder: (context) => const TasksScreen(),
@@ -31,10 +33,10 @@ Route onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         builder: (context) => UpdateTaskScreen(taskModel: args),
       );
-    // case Pages.developers:
-    //   return MaterialPageRoute(
-    //     builder: (context) => const Developers(),
-    //   );
+    case Pages.developers:
+      return MaterialPageRoute(
+        builder: (context) => const Developers(),
+      );
     default:
       return MaterialPageRoute(
         builder: (context) => const PageNotFound(),
