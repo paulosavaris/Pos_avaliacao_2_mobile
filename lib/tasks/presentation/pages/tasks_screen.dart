@@ -43,9 +43,15 @@ class _TasksScreenState extends State<TasksScreen> {
             child: Scaffold(
           backgroundColor: kWhiteColor,
           appBar: CustomAppBar(
-            title: '?',
+            title: 'Tarefas',
             showBackArrow: false,
             actionWidgets: [
+              IconButton(
+                icon: Icon(Icons.info_outline),
+                onPressed: () {
+                  Navigator.pushNamed(context, Pages.developers);
+                },
+              ),
               PopupMenuButton<int>(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -65,6 +71,13 @@ class _TasksScreenState extends State<TasksScreen> {
                         context
                             .read<TasksBloc>()
                             .add(SortTaskEvent(sortOption: 2));
+                        break;
+                      }
+                    case 2:
+                      {
+                        context
+                            .read<TasksBloc>()
+                            .add(SortTaskEvent(sortOption: 3));
                         break;
                       }
                   }
@@ -105,6 +118,27 @@ class _TasksScreenState extends State<TasksScreen> {
                           ),
                           buildText(
                               'Pendentes',
+                              kBlackColor,
+                              textSmall,
+                              FontWeight.normal,
+                              TextAlign.start,
+                              TextOverflow.clip)
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 3,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.date_range,
+                            size: 15,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          buildText(
+                              'Por data',
                               kBlackColor,
                               textSmall,
                               FontWeight.normal,
