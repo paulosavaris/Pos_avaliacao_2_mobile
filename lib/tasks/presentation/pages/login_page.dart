@@ -90,20 +90,24 @@ class _LoginPageState extends State<LoginPage> {
 
     // Validação básica
     if (email.isEmpty || !email.contains('@')) {
-      _showErrorDialog(context, 'Erro de validação', 'Por favor, insira um e-mail válido.');
+      _showErrorDialog(
+          context, 'Erro de validação', 'Por favor, insira um e-mail válido.');
       return;
     }
 
     if (password.isEmpty || password.length < 6) {
-      _showErrorDialog(context, 'Erro de validação', 'A senha deve ter pelo menos 6 caracteres.');
+      _showErrorDialog(context, 'Erro de validação',
+          'A senha deve ter pelo menos 6 caracteres.');
       return;
     }
 
     // Autenticação
     if (_userCredentials[email] == password) {
-      Navigator.pushReplacementNamed(context, Pages.home); // Navegar para a página inicial após login bem-sucedido
+      Navigator.pushReplacementNamed(context,
+          Pages.home); // Navegar para a página inicial após login bem-sucedido
     } else {
-      _showErrorDialog(context, 'Erro de autenticação', 'E-mail ou senha incorretos.');
+      _showErrorDialog(
+          context, 'Erro de autenticação', 'E-mail ou senha incorretos.');
     }
   }
 
